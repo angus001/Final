@@ -1,0 +1,67 @@
+title: "R AssignmentWeek4"
+
+author: Angus (Group --"Nabila","sanjive","Angus")
+
+date: "July 25, 2015"
+
+output: html_document
+RPubs Link 
+http://rpubs.com/ahuang/96149
+
+---
+  
+  Use base R graphics, or a graphics package of your choice. You should include at least one example of each of the following:
+  
+  .histogram
+
+.boxplot
+
+.scatterplot Do the graphics provide insight into any relationships in the data?
+
+--Histogram to represent state wise population
+
+```{r}
+
+library(ggplot2)
+
+midwest=read.csv(file="https://raw.github.com/vincentarelbundock/Rdatasets/master/csv/ggplot2/midwest.csv",header=TRUE,sep=",")
+
+z <- rowsum(midwest$poptotal, midwest$state)
+
+s <- ggplot(data = midwest, aes(x = state, y = poptotal, fill = state))
+
+s + geom_histogram(stat="identity") + ggtitle("Midwest States Vs. Total Population") +
+  
+  xlab("Midwest States") + ylab("Total Population")
+
+```
+
+Conclusion: The graph represents Illinois as highest populated state and Wisconsin as the least populated state
+
+Does college education have effect on proverty?
+
+```{r}
+
+p <- ggplot(data = midwest, aes(y = percpovertyknown, x = percollege))
+
+p + geom_point((aes(color = state))) + ggtitle("College Education Vs Total Proverty") +
+  
+  xlab("Percent College Educated") + ylab("Percentage of Total proverty")
+
+p + geom_point(aes(color = state)) + facet_wrap(~state) + ggtitle("College Education Vs Total Proverty by Each Midwest State") +
+  
+  xlab("Percent College Educated") + ylab("Percentage of Total proverty")
+
+```
+
+Conclusion: Plotting the scatter chart for each of the state, we concluded that lower education has high impact on individual's economic state with few exception as outliers which we have funneled in our BoxPlot.
+
+BoxPlot to Represent the Outliers
+
+```{r}
+
+p <- ggplot(data = midwest, aes(y = percpovertyknown, x = percollege))
+
+p + geom_boxplot(aes(color = state)) + facet_wrap(~state) + ggtitle("College Education Vs Total Proverty by Each Midwest State") +
+
+xlab("Percent College Educated") + ylab("Percentage of Total proverty")
